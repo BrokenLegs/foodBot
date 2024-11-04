@@ -28,8 +28,8 @@ async function getRecipes() {
 
 async function displayRecipes() {
   const hits = await getRecipes();
-  hits.forEach((recipe) => {
-    console.log(recipe.recipe.label);
+  hits.forEach((hit) => {
+    console.log(hit.recipe.label);
   });
   console.log("recipes", hits);
 }
