@@ -11,15 +11,25 @@ import {
 } from "@/components/ui/card";
 import { getRecipes, Recipe } from "@/features/RecipeSearch";
 
-export default function RecipeCard() {
+interface RecipeCardProps {
+  searchFilter: string
+}
+
+export default function RecipeCard({searchFilter}: RecipeCardProps) {
+  console.log(searchFilter)
+
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchRecipes = async () => {
+      if(searchFilter === "") {
+        console.log("early return")
+        return
+      }
       try {
-        const data = await getRecipes();
+        const data = await getRecipes(searchFilter);
         setRecipes(data);
         setLoading(false);
       } catch (error) {
@@ -28,7 +38,7 @@ export default function RecipeCard() {
       }
     };
     fetchRecipes();
-  }, []);
+  }, [searchFilter]);
 
   return (
     <>
