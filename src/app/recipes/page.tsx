@@ -20,7 +20,7 @@ export default function page() {
       </header>
       <main>
         <div className='card-container grid md:grid-cols-5 text-center gap-4'>
-          <RecipeCard />
+          <RecipeCard searchFilter={searchFilter} />
         </div>
       </main>
     </>

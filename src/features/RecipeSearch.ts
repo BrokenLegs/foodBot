@@ -3,9 +3,6 @@ require("dotenv").config();
 const baseUrl = "https://api.edamam.com/";
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const API_ID = process.env.NEXT_PUBLIC_API_ID;
-const food = "Fried Sriracha Tofu";
-
-const url = `${baseUrl}api/recipes/v2?type=public&q=${food}&app_id=${API_ID}&app_key=${API_KEY}`;
 
 export interface Recipe {
   calories: number;
@@ -29,7 +26,8 @@ export interface Recipe {
   url: string;
 }
 
-export async function getRecipes(): Promise<Recipe[]> {
+export async function getRecipes(food: string): Promise<Recipe[]> {
+  const url = `${baseUrl}api/recipes/v2?type=public&q=${food}&app_id=${API_ID}&app_key=${API_KEY}`;
   const response = await fetch(url, {
     method: "GET",
     headers: {

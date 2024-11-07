@@ -12,6 +12,7 @@ import {
 import { getRecipes, Recipe } from "@/features/RecipeSearch";
 
 export default function RecipeCard() {
+  const searchFilter: string = "";
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -28,7 +29,7 @@ export default function RecipeCard() {
       }
     };
     fetchRecipes();
-  }, []);
+  }, [searchFilter]);
 
   return (
     <>
