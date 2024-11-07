@@ -27,6 +27,7 @@ export interface Recipe {
 }
 
 export async function getRecipes(food: string): Promise<Recipe[]> {
+  console.log("food in api", food)
   const url = `${baseUrl}api/recipes/v2?type=public&q=${food}&app_id=${API_ID}&app_key=${API_KEY}`;
   const response = await fetch(url, {
     method: "GET",
