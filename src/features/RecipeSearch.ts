@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 require("dotenv").config();
 
 const baseUrl = "https://api.edamam.com/";
@@ -27,7 +28,7 @@ export interface Recipe {
 }
 
 export async function getRecipes(food: string): Promise<Recipe[]> {
-  console.log("food in api", food)
+  console.log("food in api", food);
   const url = `${baseUrl}api/recipes/v2?type=public&q=${food}&app_id=${API_ID}&app_key=${API_KEY}`;
   const response = await fetch(url, {
     method: "GET",
@@ -39,8 +40,9 @@ export async function getRecipes(food: string): Promise<Recipe[]> {
   const data = await response.json();
   console.log(data);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recipes: Recipe[] = data.hits.map((hit: any) => ({
-    calories: hit.recipe.calories,
+    calories: Math.floor(hit.recipe.calories),
     cautions: hit.recipe.cautions,
     cuisineType: hit.recipe.cuisineType,
     dietLabels: hit.recipe.dietLabels,
