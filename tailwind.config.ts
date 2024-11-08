@@ -10,6 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        foodBotColor: "#FDC6B2",
+        foodBotHoverColor: "#FDC6B2",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

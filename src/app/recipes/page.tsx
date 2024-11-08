@@ -4,6 +4,7 @@ import RecipeCard from "@/components/RecipeCard";
 import logo from "@/app/img/logo.png";
 import Image from "next/image";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
 
 export default function page() {
 
@@ -22,6 +23,7 @@ export default function page() {
 
   return (
     <>
+    <Navbar />
       <header className='flex justify-evenly items-center mb-4'>
         <Image
           src={logo}
