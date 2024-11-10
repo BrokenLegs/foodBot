@@ -161,7 +161,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                   )}
 
                   <p className='my-2'>
-                    See the full recipe from{" "}
+                    See the full recipe{" "}
                     <Link
                       href={recipe.url}
                       legacyBehavior

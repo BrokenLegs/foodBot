@@ -1,9 +1,10 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import RecipeCard from "@/components/RecipeCard";
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
+import { Mic } from "lucide-react";
 
 export default function page() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -23,16 +24,20 @@ export default function page() {
 
   return (
     <>
-      <Navbar />
-      <header className='flex justify-evenly items-center mb-4'>
+    <Navbar />
+    <div className="flex justify-center">
+      <header className='flex w-1/3 items-center mb-4 p-10'>
         <Input
           placeholder='Search for recipe'
-          className='md:mx-auto'
+          className='md:mx-auto '
           value={searchFilter}
           onChange={handleInputChange}
           onKeyUp={handleKeyPress}
         />{" "}
+        <Button className="bg-foodBotColor ml-5"> 
+          <Mic size={24}></Mic> </Button>
       </header>
+          </div>
       <main>
         <div className='card-container container mx-auto  flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
           <RecipeCard searchFilter={submittedFilter} />
