@@ -59,7 +59,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
       {recipes.map((recipe, index) => (
         <Card
           key={index}
-          className='bg-background text-foreground h-full flex flex-col max-w-[350px]'
+          className='bg-background text-foreground h-full flex flex-col max-w-[350px] hover:scale-110 ease-in duration-100'
         >
           <Dialog key={index}>
             <DialogTrigger>

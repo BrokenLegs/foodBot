@@ -26,7 +26,7 @@ export default function page() {
     <>
     <Navbar />
     <div className="flex justify-center">
-      <header className='flex w-1/3 items-center mb-4 p-10'>
+      <header className='flex w-full items-center mb-4 p-10 md:w-1/2 lg:w-1/3 '>
         <Input
           placeholder='Search for recipe'
           className='md:mx-auto '
@@ -39,7 +39,7 @@ export default function page() {
       </header>
           </div>
       <main className="px-20">
-        <div className='card-container container mx-auto  flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
+        <div className='card-container container mx-auto  flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-4'>
           <RecipeCard searchFilter={submittedFilter} />
         </div>
       </main>
