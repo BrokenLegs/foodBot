@@ -38,7 +38,7 @@ export default function page() {
           <Mic size={24}></Mic> </Button>
       </header>
           </div>
-      <main>
+      <main className="px-20">
         <div className='card-container container mx-auto  flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
           <RecipeCard searchFilter={submittedFilter} />
         </div>
