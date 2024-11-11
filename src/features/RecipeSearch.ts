@@ -25,6 +25,8 @@ export interface Recipe {
   shareAs: string;
   uri: string;
   url: string;
+  source: string;
+  yield: number; // number of servings
 }
 
 export async function getRecipes(food: string): Promise<Recipe[]> {
@@ -61,6 +63,8 @@ export async function getRecipes(food: string): Promise<Recipe[]> {
     shareAs: hit.recipe.shareAs,
     uri: hit.recipe.uri,
     url: hit.recipe.url,
+    source: hit.recipe.source,
+    yield: hit.recipe.yield,
   }));
 
   console.log(recipes);

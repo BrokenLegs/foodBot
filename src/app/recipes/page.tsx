@@ -24,7 +24,7 @@ export default function page() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <header className='flex justify-evenly items-center mb-4'>
         <Image
           src={logo}
@@ -42,7 +42,7 @@ export default function page() {
         />{" "}
       </header>
       <main>
-        <div className='card-container grid md:grid-cols-5 gap-2'>
+        <div className='card-container flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
           <RecipeCard searchFilter={submittedFilter} />
         </div>
       </main>
