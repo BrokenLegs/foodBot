@@ -1,8 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import RecipeCard from "@/components/RecipeCard";
-import logo from "@/app/img/logo.png";
-import Image from "next/image";
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 
@@ -24,15 +23,8 @@ export default function page() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <header className='flex justify-evenly items-center mb-4'>
-        <Image
-          src={logo}
-          alt='Logo'
-          width={150}
-          height={100}
-          className='h-20 w-auto rounded-lg'
-        />
         <Input
           placeholder='Search for recipe'
           className='md:mx-auto'
@@ -42,7 +34,7 @@ export default function page() {
         />{" "}
       </header>
       <main>
-        <div className='card-container grid md:grid-cols-5 gap-2'>
+        <div className='card-container flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
           <RecipeCard searchFilter={submittedFilter} />
         </div>
       </main>
