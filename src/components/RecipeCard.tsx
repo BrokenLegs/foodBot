@@ -51,7 +51,10 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
       {loading && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
       {recipes.map((recipe, index) => (
-        <Card key={index} className='bg-background text-foreground'>
+        <Card
+          key={index}
+          className='bg-background text-foreground h-full flex flex-col'
+        >
           <Dialog key={index}>
             <DialogTrigger>
               <CardHeader>
@@ -83,29 +86,76 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                   <h2 className='text-3xl text-foreground '>{recipe.label}</h2>
                   <h3 className='font-bold'>
                     Cuisine:{" "}
-                    <span className='text-xs'>({recipe.cuisineType})</span>
+                    <span className='text-xs capitalize'>
+                      {recipe.cuisineType}
+                    </span>
                   </h3>
-                  <h3 className='font-bold '>
-                    {recipe.cautions.length > 0 && <span>Contains: </span>}
-                    {recipe.cautions.map((caution, index) => (
-                      <span
-                        key={index}
-                        className='text-red-400 font-bold text-xs'
-                      >
+                  <h3 className='font-bold'>
+                    Meal Type:{" "}
+                    {recipe.mealType.map((mealType, index) => (
+                      <span key={index} className='text-xs capitalize'>
                         {index != 0 && ", "}
-                        {caution}
+                        {mealType}
                       </span>
                     ))}
+                  </h3>
+                  {recipe.cautions.length > 0 && (
+                    <h3 className='font-bold '>
+                      <span>Contains: </span>
+                      {recipe.cautions.map((caution, index) => (
+                        <span
+                          key={index}
+                          className='text-red-400 font-bold text-xs'
+                        >
+                          {index != 0 && ", "}
+                          {caution}
+                        </span>
+                      ))}
+                    </h3>
+                  )}
+                  <h3 className='font-bold'>
+                    Servings: <span className='text-xs'>{recipe.yield}</span>
                   </h3>
                   <h3 className='font-bold'>
                     Calories: <span className='text-xs'>{recipe.calories}</span>
                   </h3>
                   <h3 className='font-bold'>
-                    Servings: <span className='text-xs'>{recipe.yield}</span>
+                    Calories/serving:{" "}
+                    <span className='text-xs'>
+                      {Math.floor(recipe.calories / recipe.yield)}
+                    </span>
                   </h3>
+                  {recipe.dietLabels.length > 0 && (
+                    <h3 className='font-bold'>
+                      Diet Labels:{" "}
+                      {recipe.dietLabels.map((dietLabel, index) => (
+                        <span
+                          key={index}
+                          className='text-green-600 font-medium text-xs italic'
+                        >
+                          {index != 0 && ", "}
+                          {dietLabel}
+                        </span>
+                      ))}
+                    </h3>
+                  )}
+                  {recipe.healthLabels.length > 0 && (
+                    <h3 className='font-bold'>
+                      Health Labels:{" "}
+                      {recipe.healthLabels.map((healthLabel, index) => (
+                        <span
+                          key={index}
+                          className='text-green-600 font-medium text-xs italic'
+                        >
+                          {index != 0 && ", "}
+                          {healthLabel}
+                        </span>
+                      ))}
+                    </h3>
+                  )}
 
                   <p className='my-2'>
-                    See the full recipe{" "}
+                    See the full recipe from{" "}
                     <Link
                       href={recipe.url}
                       legacyBehavior
@@ -137,9 +187,8 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
             </DialogContent>
           </Dialog>
 
-          <hr className='border-gray-400' />
-
-          <CardDescription className='flex justify-evenly px-6 py-2 '>
+          <Separator about='sdfsfd' className='mt-auto' />
+          <CardDescription className='flex justify-evenly px-6 py-2 text-center '>
             <p className=''>
               Calories:{" "}
               <span className='text-green-300 font-bold'>
@@ -170,7 +219,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
               </HoverCardContent>
             </HoverCard>
           </CardDescription>
-          <hr className='border-gray-400 px-6' />
+          <Separator />
         </Card>
       ))}
     </>

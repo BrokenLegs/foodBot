@@ -10,7 +10,6 @@ export interface Recipe {
   cautions: string[];
   cuisineType: string[];
   dietLabels: string[];
-  dishType: string[];
   healthLabels: string[];
   image: string;
   images: {
@@ -48,7 +47,6 @@ export async function getRecipes(food: string): Promise<Recipe[]> {
     cautions: hit.recipe.cautions,
     cuisineType: hit.recipe.cuisineType,
     dietLabels: hit.recipe.dietLabels,
-    dishType: hit.recipe.dishType,
     healthLabels: hit.recipe.healthLabels,
     image: hit.recipe.image,
     images: {
