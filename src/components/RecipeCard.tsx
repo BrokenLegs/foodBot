@@ -20,6 +20,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import CustomSkeleton from "@/components/CustomSkeleton";
+
 export default function RecipeCard({ searchFilter }: RecipeCardProps) {
   console.log(searchFilter);
 
@@ -30,10 +32,10 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
   useEffect(() => {
     const fetchRecipes = async () => {
       if (searchFilter === "") {
-        console.log("early return");
         return;
       }
       try {
+        setRecipes([]);
         setLoading(true);
         const data = await getRecipes(searchFilter);
         setRecipes(data);
@@ -48,12 +50,16 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <>
+          <CustomSkeleton />
+        </>
+      )}
       {error && <p>{error.message}</p>}
       {recipes.map((recipe, index) => (
         <Card
           key={index}
-          className='bg-background text-foreground h-full flex flex-col'
+          className='bg-background text-foreground h-full flex flex-col max-w-[350px]'
         >
           <Dialog key={index}>
             <DialogTrigger>

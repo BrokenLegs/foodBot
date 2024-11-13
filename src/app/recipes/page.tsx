@@ -34,7 +34,7 @@ export default function page() {
         />{" "}
       </header>
       <main>
-        <div className='card-container flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
+        <div className='card-container container mx-auto  flex flex-col items-center justify-center md:grid md:grid-cols-5 gap-2'>
           <RecipeCard searchFilter={submittedFilter} />
         </div>
       </main>
