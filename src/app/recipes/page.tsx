@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import RecipeCard from "@/components/RecipeCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Mic } from "lucide-react";
@@ -12,9 +12,18 @@ export default function page() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [submittedFilter, setSubmittedFilter] = useState("");
 
+useEffect(() => {
+    const searchValueString = sessionStorage.getItem("searchFilter");
+    if(searchValueString) {
+    setSearchFilter(searchValueString)
+  }
+},[])
+
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setSubmittedFilter(searchFilter);
+
+  sessionStorage.setItem("searchFilter", searchFilter);
     }
   };
 
