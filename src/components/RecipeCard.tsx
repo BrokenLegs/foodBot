@@ -30,6 +30,14 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    const savedRecipes = sessionStorage.getItem("recipes");
+    if (savedRecipes) {
+      const parsedRecipes = JSON.parse(savedRecipes);
+      setRecipes(parsedRecipes);
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchRecipes = async () => {
       if (searchFilter === "") {
         return;
@@ -39,6 +47,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
         setLoading(true);
         const data = await getRecipes(searchFilter);
         setRecipes(data);
+        sessionStorage.setItem("recipes", JSON.stringify(data));
         setLoading(false);
       } catch (error) {
         setError(error as Error);
