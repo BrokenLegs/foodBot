@@ -6,26 +6,26 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const API_ID = process.env.NEXT_PUBLIC_API_ID;
 
 export interface Recipe {
-  calories: number;
-  cautions: string[];
-  cuisineType: string[];
-  dietLabels: string[];
-  healthLabels: string[];
-  image: string;
+  calories?: number;
+  cautions?: string[];
+  cuisineType?: string[];
+  dietLabels?: string[];
+  healthLabels?: string[];
+  image?: string;
   images: {
     LARGE: string;
     REGULAR: string;
     SMALL: string;
     THUMBNAIL: string;
   };
-  ingredientLines: string[];
-  label: string;
-  mealType: string[];
-  shareAs: string;
-  uri: string;
+  ingredientLines?: string[];
+  label?: string;
+  mealType?: string[];
+  shareAs?: string;
+  uri?: string;
   url: string;
-  source: string;
-  yield: number; // number of servings
+  source?: string;
+  yield?: number; // number of servings
 }
 
 export async function getRecipes(food: string): Promise<Recipe[]> {

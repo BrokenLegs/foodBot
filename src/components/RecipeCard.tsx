@@ -6,7 +6,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { getRecipes, Recipe } from "@/features/RecipeSearch";
+import { getRecipes, Recipe } from "@/features/RecipeSearch/RecipeSearch";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 interface RecipeCardProps {
@@ -23,8 +23,6 @@ import {
 import CustomSkeleton from "@/components/CustomSkeleton";
 
 export default function RecipeCard({ searchFilter }: RecipeCardProps) {
-  console.log(searchFilter);
-
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -70,7 +68,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
           key={index}
           className='bg-background text-foreground h-full flex flex-col max-w-[350px] hover:scale-110 ease-in duration-100'
         >
-          <Dialog key={index}>
+          <Dialog>
             <DialogTrigger>
               <CardHeader>
                 <img src={recipe.image} alt={recipe.label} />
@@ -79,10 +77,12 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                 <p className='text-lg'>{recipe.label}</p>
                 <p className='text-xs'>({recipe.cuisineType})</p>
                 <p className='text-xs'>
-                  {recipe.cautions.length > 0 && <span>contains: </span>}
-                  {recipe.cautions.map((caution, index) => (
+                  {recipe.cautions && recipe.cautions.length > 0 && (
+                    <span>contains: </span>
+                  )}
+                  {recipe.cautions?.map((caution, index) => (
                     <span key={index} className='text-red-400 font-bold'>
-                      {index != 0 && ", "}
+                      {index !== 0 && ", "}
                       {caution}
                     </span>
                   ))}
@@ -107,22 +107,23 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                   </h3>
                   <h3 className='font-bold'>
                     Meal Type:{" "}
-                    {recipe.mealType.map((mealType, index) => (
-                      <span key={index} className='text-xs capitalize'>
-                        {index != 0 && ", "}
-                        {mealType}
-                      </span>
-                    ))}
+                    {recipe.mealType &&
+                      recipe.mealType.map((mealType, index) => (
+                        <span key={index} className='text-xs capitalize'>
+                          {index !== 0 && ", "}
+                          {mealType}
+                        </span>
+                      ))}
                   </h3>
-                  {recipe.cautions.length > 0 && (
+                  {recipe.cautions && recipe.cautions.length > 0 && (
                     <h3 className='font-bold '>
                       <span>Contains: </span>
-                      {recipe.cautions.map((caution, index) => (
+                      {recipe.cautions?.map((caution, index) => (
                         <span
                           key={index}
                           className='text-red-400 font-bold text-xs'
                         >
-                          {index != 0 && ", "}
+                          {index !== 0 && ", "}
                           {caution}
                         </span>
                       ))}
@@ -137,13 +138,15 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                   <h3 className='font-bold'>
                     Calories/serving:{" "}
                     <span className='text-xs'>
-                      {Math.floor(recipe.calories / recipe.yield)}
+                      {recipe.calories &&
+                        recipe.yield &&
+                        Math.floor(recipe.calories / recipe.yield)}
                     </span>
                   </h3>
-                  {recipe.dietLabels.length > 0 && (
+                  {recipe.dietLabels && recipe.dietLabels.length > 0 && (
                     <h3 className='font-bold'>
                       Diet Labels:{" "}
-                      {recipe.dietLabels.map((dietLabel, index) => (
+                      {recipe.dietLabels?.map((dietLabel, index) => (
                         <span
                           key={index}
                           className='text-green-600 font-medium text-xs italic'
@@ -154,10 +157,10 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                       ))}
                     </h3>
                   )}
-                  {recipe.healthLabels.length > 0 && (
+                  {recipe.healthLabels && recipe.healthLabels.length > 0 && (
                     <h3 className='font-bold'>
                       Health Labels:{" "}
-                      {recipe.healthLabels.map((healthLabel, index) => (
+                      {recipe.healthLabels?.map((healthLabel, index) => (
                         <span
                           key={index}
                           className='text-green-600 font-medium text-xs italic'
@@ -191,7 +194,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                 <div className=''>
                   <div>
                     <h3 className='font-bold'>Ingredients:</h3>
-                    {recipe.ingredientLines.map((ingredient, index) => (
+                    {recipe.ingredientLines?.map((ingredient, index) => (
                       <p key={index} className='my-2'>
                         {ingredient}
                       </p>
@@ -202,8 +205,8 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
             </DialogContent>
           </Dialog>
 
-          <Separator about='sdfsfd' className='mt-auto' />
-          <CardDescription className='flex justify-evenly px-6 py-2 text-center '>
+          <Separator className='mt-auto' />
+          <CardDescription className='flex justify-evenly px-6 py-2 text-center gap-4'>
             <p className=''>
               Calories:{" "}
               <span className='text-green-300 font-bold'>
@@ -215,17 +218,15 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
             </div>
             <HoverCard openDelay={350}>
               <HoverCardTrigger className='cursor-pointer'>
-                <p>
-                  Ingredients:
-                  <span className='text-green-300 font-bold'>
-                    {" "}
-                    {recipe.ingredientLines.length}
-                  </span>
-                </p>
+                Ingredients:
+                <span className='text-green-300 font-bold'>
+                  {" "}
+                  {recipe.ingredientLines?.length}
+                </span>
               </HoverCardTrigger>
               <HoverCardContent>
                 <ul>
-                  {recipe.ingredientLines.map((ingredient, index) => (
+                  {recipe.ingredientLines?.map((ingredient, index) => (
                     <li key={index} className='my-2'>
                       {ingredient}
                     </li>
