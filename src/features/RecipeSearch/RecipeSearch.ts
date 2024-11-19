@@ -1,7 +1,9 @@
+import { fields } from "./data/recipeFields";
+
 /* eslint-disable @typescript-eslint/no-require-imports */
 require("dotenv").config();
 
-const baseUrl = "https://api.edamam.com/";
+// const baseUrl = "https://api.edamam.com/";
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const API_ID = process.env.NEXT_PUBLIC_API_ID;
 
@@ -28,9 +30,40 @@ export interface Recipe {
   yield?: number; // number of servings
 }
 
-export async function getRecipes(food: string): Promise<Recipe[]> {
-  console.log("food in api", food);
-  const url = `${baseUrl}api/recipes/v2?type=public&q=${food}&app_id=${API_ID}&app_key=${API_KEY}`;
+export async function getRecipes(
+  food: string = "",
+  dietFilters?: fields[],
+  allergyFilters?: fields[]
+): Promise<Recipe[]> {
+  let query = "";
+
+  if (food !== "") {
+    query += "q=" + food;
+  }
+
+  if (dietFilters && dietFilters.length > 0) {
+    const dietQuery = dietFilters
+      .map((diet) => `${diet.apiType}=${diet.apiParameter}`)
+      .join("&");
+    query += `&${dietQuery}`;
+  }
+  console.log("dietFilters", dietFilters);
+
+  if (allergyFilters && allergyFilters.length > 0) {
+    const allergyQuery = allergyFilters
+      .map((allergy) => `${allergy.apiType}=${allergy.apiParameter}`)
+      .join("&");
+    query += `&${allergyQuery}`;
+  }
+  console.log("allergyFilters", allergyFilters);
+
+  const baseUrl = "https://api.edamam.com/";
+
+  const url = `${baseUrl}api/recipes/v2?type=public&${query}&app_id=${API_ID}&app_key=${API_KEY}`;
+
+  console.log("url", url);
+
+  console.log(url);
   const response = await fetch(url, {
     method: "GET",
     headers: {

@@ -9,20 +9,28 @@ import {
 import { getRecipes, Recipe } from "@/features/RecipeSearch/RecipeSearch";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+// import Image from "next/image";
 interface RecipeCardProps {
-  searchFilter: string;
+  searchFilters: string;
+  allergyFilters: fields[];
+  dietAndHealthFilters: fields[];
 }
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+  // DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
 import CustomSkeleton from "@/components/CustomSkeleton";
+import { fields } from "@/features/RecipeSearch/data/recipeFields";
 
-export default function RecipeCard({ searchFilter }: RecipeCardProps) {
+export default function RecipeCard({
+  searchFilters,
+  dietAndHealthFilters,
+  allergyFilters,
+}: RecipeCardProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -37,13 +45,17 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      if (searchFilter === "") {
+      if (searchFilters === "") {
         return;
       }
       try {
         setRecipes([]);
         setLoading(true);
-        const data = await getRecipes(searchFilter);
+        const data = await getRecipes(
+          searchFilters,
+          allergyFilters,
+          dietAndHealthFilters
+        );
         setRecipes(data);
         sessionStorage.setItem("recipes", JSON.stringify(data));
         setLoading(false);
@@ -53,7 +65,7 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
       }
     };
     fetchRecipes();
-  }, [searchFilter]);
+  }, [searchFilters]);
 
   return (
     <>
@@ -66,12 +78,26 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
       {recipes.map((recipe, index) => (
         <Card
           key={index}
-          className='bg-background text-foreground h-full flex flex-col max-w-[350px] hover:scale-110 ease-in duration-100'
+          className='bg-background text-foreground h-full w-full flex flex-col max-w-[350px] hover:scale-110 ease-in duration-100'
         >
           <Dialog>
             <DialogTrigger>
               <CardHeader>
-                <img src={recipe.image} alt={recipe.label} />
+                <img
+                  src={recipe.images.THUMBNAIL}
+                  alt={recipe.label}
+                  className='object-cover w-full h-56'
+                />
+
+                {/* I feel that the images are loading alot slower using nexts own img component */}
+                {/* <div className='bg-black flex flex-col justify-center relative w-full h-56'>
+                  <Image
+                    src={recipe.images.THUMBNAIL || "/recipe-placeholder.jpg"}
+                    alt={recipe.label || "recipe"}
+                    fill
+                    objectFit='cover'
+                  />
+                </div> */}
               </CardHeader>
               <CardDescription className='px-6 pb-4'>
                 <p className='text-lg'>{recipe.label}</p>
@@ -89,14 +115,12 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                 </p>
               </CardDescription>
             </DialogTrigger>
-            <DialogContent className='p-6 overflow-y-auto max-h-full flex flex-col md:grid md:grid-cols-2'>
+            <DialogContent className='p-6 overflow-y-auto max-h-full flex flex-col md:grid md:grid-cols-2 text-sm text-muted-foreground'>
               <DialogTitle className='hidden'>{recipe.label}</DialogTitle>
-              <DialogDescription className='1 flex flex-col gap-3'>
-                <div>
-                  <img src={recipe.image} alt={recipe.label} className='' />
-                </div>
-              </DialogDescription>
-              <DialogDescription className='2 flex items-center'>
+              <section className='1 flex flex-col gap-3'>
+                <img src={recipe.image} alt={recipe.label} className='' />
+              </section>
+              <section className='2 flex items-center'>
                 <div className='flex flex-col gap-1'>
                   <h2 className='text-3xl text-foreground '>{recipe.label}</h2>
                   <h3 className='font-bold'>
@@ -189,19 +213,15 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                     </Link>
                   </p>
                 </div>
-              </DialogDescription>
-              <DialogDescription className='3'>
-                <div className=''>
-                  <div>
-                    <h3 className='font-bold'>Ingredients:</h3>
-                    {recipe.ingredientLines?.map((ingredient, index) => (
-                      <p key={index} className='my-2'>
-                        {ingredient}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              </DialogDescription>
+              </section>
+              <section className='3'>
+                <h3 className='font-bold'>Ingredients:</h3>
+                {recipe.ingredientLines?.map((ingredient, index) => (
+                  <p key={index} className='my-2'>
+                    {ingredient}
+                  </p>
+                ))}
+              </section>
             </DialogContent>
           </Dialog>
 
@@ -224,8 +244,8 @@ export default function RecipeCard({ searchFilter }: RecipeCardProps) {
                   {recipe.ingredientLines?.length}
                 </span>
               </HoverCardTrigger>
-              <HoverCardContent>
-                <ul>
+              <HoverCardContent className='max-h-[60vh] overflow-y-auto'>
+                <ul className=''>
                   {recipe.ingredientLines?.map((ingredient, index) => (
                     <li key={index} className='my-2'>
                       {ingredient}

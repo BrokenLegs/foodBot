@@ -1,11 +1,11 @@
-interface Fields {
+export interface fields {
   webLabel: string;
   apiParameter: string;
-  definition: string;
+  definition?: string;
   apiType: string;
 }
 
-const diet: Fields[] = [
+const diet: fields[] = [
   {
     webLabel: "Balanced",
     apiParameter: "balanced",
@@ -44,7 +44,7 @@ const diet: Fields[] = [
   },
 ];
 
-const healthLabels: Fields[] = [
+const healthLabels: fields[] = [
   {
     webLabel: "Alchocol-Cocktail",
     apiParameter: "alcohol-cocktail",
@@ -327,7 +327,7 @@ const cuisineType: string[] = [
 ];
 
 // Parameters for the search filter. Some items from the HealthLabels and Diet arrays are included in the mostCommonDietLabels array.
-const mostCommonDietLabels: Fields[] = [
+const mostCommonDietLabels: fields[] = [
   ...diet,
   {
     webLabel: "Vegan",
@@ -376,6 +376,51 @@ const mostCommonDietLabels: Fields[] = [
   },
 ];
 
+const mostCommonAllergies: fields[] = [
+  {
+    webLabel: "Gluten-Free",
+    apiParameter: "gluten-free",
+    apiType: "health",
+    definition: "No ingredients containing gluten",
+  },
+  {
+    webLabel: "Dairy-Free",
+    apiParameter: "dairy-free",
+    apiType: "health",
+    definition: "No dairy; no lactose",
+  },
+  {
+    webLabel: "Egg-Free",
+    apiParameter: "egg-free",
+    apiType: "health",
+    definition: "No eggs or products containing eggs ",
+  },
+  {
+    webLabel: "Soy-Free",
+    apiParameter: "soy-free",
+    apiType: "health",
+    definition: "No soy or products containing soy",
+  },
+  {
+    webLabel: "Fish-Free",
+    apiParameter: "fish-free",
+    apiType: "health",
+    definition: "No fish or fish derivatives",
+  },
+  {
+    webLabel: "Shellfish-Free",
+    apiParameter: "shellfish-free",
+    apiType: "health",
+    definition: "No shellfish or shellfish derivatives",
+  },
+  {
+    webLabel: "Peanut-Free",
+    apiParameter: "peanut-free",
+    apiType: "health",
+    definition: "No peanuts or products containing peanuts",
+  },
+];
+
 export {
   diet,
   healthLabels,
@@ -383,4 +428,5 @@ export {
   dishType,
   cuisineType,
   mostCommonDietLabels,
+  mostCommonAllergies,
 };
