@@ -47,7 +47,6 @@ export async function getRecipes(
       .join("&");
     query += `&${dietQuery}`;
   }
-  console.log("dietFilters", dietFilters);
 
   if (allergyFilters && allergyFilters.length > 0) {
     const allergyQuery = allergyFilters
@@ -55,15 +54,11 @@ export async function getRecipes(
       .join("&");
     query += `&${allergyQuery}`;
   }
-  console.log("allergyFilters", allergyFilters);
 
   const baseUrl = "https://api.edamam.com/";
 
   const url = `${baseUrl}api/recipes/v2?type=public&${query}&app_id=${API_ID}&app_key=${API_KEY}`;
 
-  console.log("url", url);
-
-  console.log(url);
   const response = await fetch(url, {
     method: "GET",
     headers: {
@@ -98,6 +93,5 @@ export async function getRecipes(
     yield: hit.recipe.yield,
   }));
 
-  console.log(recipes);
   return recipes;
 }
